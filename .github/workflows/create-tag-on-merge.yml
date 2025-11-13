@@ -20,13 +20,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Compute tag name (date-based)
+      - name: Compute tag name including branch
         id: tag
         run: |
-          TAG_NAME="$(date +'%Y-%m-%d')"
+          # Extract branch name and sanitize it for tag usage
+          RAW_BRANCH="${{ github.event.pull_request.head.ref }}"
+          SAFE_BRANCH=$(echo "$RAW_BRANCH" | tr '/' '-' | tr ' ' '-' )
 
+          DATE_PART=$(date +'%Y-%m-%d')
+          TIME_PART=$(date +'%H%M%S')
+
+          TAG_NAME="${DATE_PART}-${SAFE_BRANCH}-${TIME_PART}"
+
+          # Ensure tag doesn't already exist
           if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
-            TAG_NAME="$(date +'%Y-%m-%d-%H%M%S')"
+            TAG_NAME="${DATE_PART}-${SAFE_BRANCH}-${TIME_PART}-1"
           fi
 
           echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
