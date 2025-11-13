@@ -1,0 +1,57 @@
+name: Create tag on merge to main
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  tag_on_merge:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute tag name (date-based)
+        id: tag
+        run: |
+          TAG_NAME="$(date +'%Y-%m-%d')"
+
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            TAG_NAME="$(date +'%Y-%m-%d-%H%M%S')"
+          fi
+
+          echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Build tag message from feature branch commits
+        id: msg
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+
+          {
+            echo "Release from feature branch: $BRANCH_NAME"
+            echo "Merged into: main"
+            echo ""
+            echo "Commits included:"
+            git log --oneline "$BASE_SHA..$HEAD_SHA"
+          } > tag_message.txt
+
+      - name: Create and push annotated tag
+        run: |
+          TAG_NAME="${{ steps.tag.outputs.tag_name }}"
+
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+          git tag -a "$TAG_NAME" -F tag_message.txt
+          git push origin "$TAG_NAME"
