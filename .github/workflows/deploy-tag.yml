@@ -1,4 +1,4 @@
-name: Deploy tag to production
+name: Deploy tag
 on:
   workflow_dispatch:
 jobs:
@@ -8,12 +8,10 @@ jobs:
     steps:
       - name: Print deployment start message
         run: |
-          echo "--------------------------------------"
-          echo "🚀 DEMO DEPLOYMENT TRIGGERED"
+          echo "DEMO DEPLOYMENT TRIGGERED"
           echo "Ref:       ${{ github.ref }}"
           echo "Ref name:  ${{ github.ref_name }}"
           echo "This is just a demo — no real deployment executed."
-          echo "--------------------------------------"
 
       - name: Checkout selected ref (tag/branch)
         uses: actions/checkout@v4
@@ -24,4 +22,4 @@ jobs:
         run: |
           echo "Pretending to deploy ${{ github.ref_name }}..."
           sleep 2
-          echo "Done! (demo only)"
+          echo "Done!"
