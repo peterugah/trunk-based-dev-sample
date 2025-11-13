@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/peterugah/trunk-based-dev-sample/compare/v0.0.9...v0.0.10) (2025-11-13)
+
+
+### Bug Fixes
+
+* revert to sv default ([b5a6d76](https://github.com/peterugah/trunk-based-dev-sample/commit/b5a6d7688b6ebd26e7b6f3530b3c735736a22a85))
+
 ### 0.0.9 (2025-11-13)
 
 
