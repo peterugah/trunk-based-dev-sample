@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/peterugah/trunk-based-dev-sample/compare/v0.0.3...v0.0.4) (2025-11-13)
+
+
+### Features
+
+* get hello world endpoint update ([351ce0c](https://github.com/peterugah/trunk-based-dev-sample/commit/351ce0cc6a83ef30232e0af95a7ff769cd08efe7))
+
 ### 0.0.3 (2025-11-13)
 
 
