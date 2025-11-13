@@ -1,4 +1,4 @@
-name: Create tag on merge to main
+name: Create tag
 
 on:
   pull_request:
