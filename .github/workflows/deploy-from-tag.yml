@@ -1,13 +1,6 @@
-name: Deploy tag to production (Demo)
-
+name: Deploy tag to production
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to deploy (e.g. 2025-11-13)'
-        required: true
-        type: string
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -17,12 +10,18 @@ jobs:
         run: |
           echo "--------------------------------------"
           echo "🚀 DEMO DEPLOYMENT TRIGGERED"
-          echo "Tag selected for deployment: ${{ github.event.inputs.tag }}"
+          echo "Ref:       ${{ github.ref }}"
+          echo "Ref name:  ${{ github.ref_name }}"
           echo "This is just a demo — no real deployment executed."
           echo "--------------------------------------"
 
+      - name: Checkout selected ref (tag/branch)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
       - name: Simulate work
         run: |
-          echo "Pretending to deploy..."
+          echo "Pretending to deploy ${{ github.ref_name }}..."
           sleep 2
           echo "Done! (demo only)"
