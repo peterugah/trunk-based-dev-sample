@@ -1,0 +1,28 @@
+name: Deploy tag to production (Demo)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to deploy (e.g. 2025-11-13)'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print deployment start message
+        run: |
+          echo "--------------------------------------"
+          echo "🚀 DEMO DEPLOYMENT TRIGGERED"
+          echo "Tag selected for deployment: ${{ github.event.inputs.tag }}"
+          echo "This is just a demo — no real deployment executed."
+          echo "--------------------------------------"
+
+      - name: Simulate work
+        run: |
+          echo "Pretending to deploy..."
+          sleep 2
+          echo "Done! (demo only)"
