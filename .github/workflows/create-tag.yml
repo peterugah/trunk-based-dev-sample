@@ -63,3 +63,19 @@ jobs:
 
           git tag -a "$TAG_NAME" -F tag_message.txt
           git push origin "$TAG_NAME"
+
+      - name: Delete feature branch on remote
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+
+          echo "Attempting to delete remote branch: $BRANCH_NAME"
+
+          # Safety check – NEVER delete main or master
+          if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ]; then
+            echo "⚠️ Refusing to delete protected branch: $BRANCH_NAME"
+            exit 0
+          fi
+
+          # Attempt deletion
+          git push origin --delete "$BRANCH_NAME" || \
+            echo "ℹ️ Branch $BRANCH_NAME may already be deleted or cannot be deleted."
