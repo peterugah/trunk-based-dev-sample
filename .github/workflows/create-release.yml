@@ -33,13 +33,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Run standard-version (bump version + changelog + tag)
-        run: |
-          yarn release
+      - name: Run standard-version WITHOUT tags
+        run: yarn release # now skips tags because of package.json flag
 
-      - name: Push changes and tags
+      - name: Push version bump + changelog commit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push origin HEAD:main
-          git push --follow-tags origin HEAD:main
